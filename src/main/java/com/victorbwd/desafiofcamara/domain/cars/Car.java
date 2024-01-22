@@ -26,4 +26,24 @@ public class Car {
         this.type = carDTO.type();
         this.brand = carDTO.brand();
     }
+
+    public void setPlate(String plate) {
+        this.plate = plate;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
 }
