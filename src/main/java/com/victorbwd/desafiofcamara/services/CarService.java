@@ -29,11 +29,21 @@ public class CarService {
     public Car update(String id, CarDTO carData) {
         Car car = this.carRepository.findById(id).orElseThrow(CarNotFoundException::new);
 
-        if(!carData.plate().isEmpty()) car.setPlate(carData.plate());
-        if(!carData.model().isEmpty()) car.setModel(carData.model());
-        if(!carData.color().isEmpty()) car.setColor(carData.color());
-        if(!carData.type().isEmpty()) car.setType(carData.type());
-        if(!carData.brand().isEmpty()) car.setBrand(carData.brand());
+        if (carData.plate() != null && !carData.plate().isEmpty()) {
+            car.setPlate(carData.plate());
+        }
+        if (carData.model() != null && !carData.model().isEmpty()) {
+            car.setModel(carData.model());
+        }
+        if (carData.color() != null && !carData.color().isEmpty()) {
+            car.setColor(carData.color());
+        }
+        if (carData.type() != null && !carData.type().isEmpty()) {
+            car.setType(carData.type());
+        }
+        if (carData.brand() != null && !carData.brand().isEmpty()) {
+            car.setBrand(carData.brand());
+        }
 
         this.carRepository.save(car);
 

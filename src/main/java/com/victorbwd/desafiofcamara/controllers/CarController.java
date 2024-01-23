@@ -31,14 +31,14 @@ public class CarController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Car> update(@PathParam("id") String id, @RequestBody CarDTO carData) {
+    public ResponseEntity<Car> update(@PathVariable("id") String id, @RequestBody CarDTO carData) {
         Car updatedCar = this.carService.update(id, carData);
         return ResponseEntity.ok().body(updatedCar);
 
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Car> delete(@PathParam("id") String id) {
+    public ResponseEntity<Car> delete(@PathVariable("id") String id) {
         this.carService.delete(id);
         return ResponseEntity.noContent().build();
 
