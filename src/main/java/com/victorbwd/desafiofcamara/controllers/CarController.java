@@ -3,24 +3,33 @@ package com.victorbwd.desafiofcamara.controllers;
 import com.victorbwd.desafiofcamara.domain.cars.Car;
 import com.victorbwd.desafiofcamara.domain.cars.CarDTO;
 import com.victorbwd.desafiofcamara.services.CarService;
+import com.victorbwd.desafiofcamara.services.VehicleControlService;
 import jakarta.websocket.server.PathParam;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/car")
 public class CarController {
     private CarService carService;
+    private VehicleControlService vehicleControlService;
 
-    public CarController(CarService carService) {
+    public CarController(CarService carService, VehicleControlService vehicleControlService) {
         this.carService = carService;
+        this.vehicleControlService = vehicleControlService;
     }
 
     @PostMapping
     public ResponseEntity<Car> insert(@RequestBody CarDTO carData) {
         Car newCar = this.carService.insert(carData);
+        this.vehicleControlService.enterVehicle(newCar);
+
+        Date entryDate = new Date();
+
+        newCar.setEntryDate( newCar.setEntryDate(entryDate));
         return ResponseEntity.ok().body(newCar);
     }
 

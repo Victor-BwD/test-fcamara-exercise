@@ -6,6 +6,8 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+
 @Document(collection = "cars")
 @Getter
 @Setter
@@ -18,6 +20,8 @@ public class Car {
     private String color;
     private String type;
     private String brand;
+    private Date entryDate;
+    private Date exitDate;
 
     public Car(CarDTO carDTO) {
         this.plate = carDTO.plate();
@@ -45,5 +49,14 @@ public class Car {
 
     public void setBrand(String brand) {
         this.brand = brand;
+    }
+
+    public Date setEntryDate(Date entryDate) {
+        this.entryDate = entryDate;
+        return entryDate;
+    }
+
+    public void setExitDate(Date exitDate) {
+        this.exitDate = exitDate;
     }
 }
