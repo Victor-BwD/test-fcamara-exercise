@@ -41,7 +41,7 @@ public class EstablishmentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Car> delete(@PathVariable("id") String id) {
+    public ResponseEntity<Establishment> delete(@PathVariable("id") String id) {
         this.establishmentService.delete(id);
         return ResponseEntity.noContent().build();
 
