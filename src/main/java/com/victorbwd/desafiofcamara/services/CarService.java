@@ -6,6 +6,7 @@ import com.victorbwd.desafiofcamara.domain.cars.exceptions.CarNotFoundException;
 import com.victorbwd.desafiofcamara.repositories.CarRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -18,6 +19,8 @@ public class CarService {
 
     public Car insert(CarDTO carData) {
           Car car = new Car(carData);
+          Date entryDate = new Date();
+          car.setEntryDate(entryDate);
           this.carRepository.save(car);
           return car;
     }
@@ -44,6 +47,14 @@ public class CarService {
         if (carData.brand() != null && !carData.brand().isEmpty()) {
             car.setBrand(carData.brand());
         }
+        if (carData.active() != null) {
+            car.setActive(carData.active());
+
+            if(car.getActive().equals(Boolean.FALSE)) {
+                Date exitDate = new Date();
+                car.setExitDate(exitDate);
+            }
+        }
 
         this.carRepository.save(car);
 
@@ -52,6 +63,7 @@ public class CarService {
 
     public void delete(String id) {
         Car car = this.carRepository.findById(id).orElseThrow(CarNotFoundException::new);
+
         this.carRepository.delete(car);
     }
 }
