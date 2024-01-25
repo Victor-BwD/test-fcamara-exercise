@@ -15,9 +15,9 @@ import java.util.List;
 
 @Service
 public class CarService {
-    private CarRepository carRepository;
+    private final CarRepository carRepository;
 
-    private EstablishmentService establishmentService;
+    private final EstablishmentService establishmentService;
 
     public CarService(CarRepository carRepository, EstablishmentService establishmentService) {
         this.carRepository = carRepository;
@@ -51,8 +51,10 @@ public class CarService {
     public Car update(String id, CarDTO carData) {
         Car car = this.carRepository.findById(id).orElseThrow(CarNotFoundException::new);
 
-        this.establishmentService.getById(carData.establishmentId()).ifPresent(car::setEstablishment);
-
+        if (carData.establishmentId() != null) {
+            this.establishmentService.getById(carData.establishmentId()).ifPresent(car::setEstablishment);
+        }
+        
         if (carData.plate() != null && !carData.plate().isEmpty()) {
             car.setPlate(carData.plate());
         }
