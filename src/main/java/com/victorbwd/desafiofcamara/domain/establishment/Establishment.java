@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "establishment")
 @Getter
 @Setter
-@NoArgsConstructor
 public class Establishment {
     @Id
     private String id;
@@ -27,6 +26,10 @@ public class Establishment {
         this.phone = establishmentDTO.phone();
         this.bikes_capacity = establishmentDTO.bikes_capacity();
         this.cars_capacity = establishmentDTO.cars_capacity();
+    }
+
+    public Establishment() {
+
     }
 
     public void setName(String name) {

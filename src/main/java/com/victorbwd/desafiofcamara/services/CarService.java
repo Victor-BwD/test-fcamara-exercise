@@ -3,8 +3,12 @@ package com.victorbwd.desafiofcamara.services;
 import com.victorbwd.desafiofcamara.domain.cars.Car;
 import com.victorbwd.desafiofcamara.domain.cars.CarDTO;
 import com.victorbwd.desafiofcamara.domain.cars.exceptions.CarNotFoundException;
+import com.victorbwd.desafiofcamara.domain.establishment.Establishment;
+import com.victorbwd.desafiofcamara.domain.establishment.exceptions.EstablishmentNotFoundException;
 import com.victorbwd.desafiofcamara.repositories.CarRepository;
+import com.victorbwd.desafiofcamara.helper.PlateValidation;
 import org.springframework.stereotype.Service;
+
 
 import java.util.Date;
 import java.util.List;
@@ -13,16 +17,31 @@ import java.util.List;
 public class CarService {
     private CarRepository carRepository;
 
-    public CarService(CarRepository carRepository) {
+    private EstablishmentService establishmentService;
+
+    public CarService(CarRepository carRepository, EstablishmentService establishmentService) {
         this.carRepository = carRepository;
+        this.establishmentService = establishmentService;
     }
 
     public Car insert(CarDTO carData) {
-          Car car = new Car(carData);
-          Date entryDate = new Date();
-          car.setEntryDate(entryDate);
-          this.carRepository.save(car);
-          return car;
+        Establishment establishment = this.establishmentService.getById(carData.establishmentId()).orElseThrow(EstablishmentNotFoundException::new);
+
+        Car newCar = new Car(carData);
+
+        PlateValidation plateValidation = new PlateValidation();
+
+        if(!plateValidation.validateBrazilianPlate(newCar.getPlate())) {
+            throw new IllegalArgumentException("Invalid plate");
+        }
+
+        Date entryDate = new Date();
+        newCar.setEntryDate(entryDate);
+
+        newCar.setEstablishment(establishment);
+
+        this.carRepository.save(newCar);
+        return newCar;
     }
 
     public List<Car> getAll() {
@@ -31,6 +50,8 @@ public class CarService {
 
     public Car update(String id, CarDTO carData) {
         Car car = this.carRepository.findById(id).orElseThrow(CarNotFoundException::new);
+
+        this.establishmentService.getById(carData.establishmentId()).ifPresent(car::setEstablishment);
 
         if (carData.plate() != null && !carData.plate().isEmpty()) {
             car.setPlate(carData.plate());

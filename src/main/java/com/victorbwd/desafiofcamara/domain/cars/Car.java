@@ -1,5 +1,6 @@
 package com.victorbwd.desafiofcamara.domain.cars;
 
+import com.victorbwd.desafiofcamara.domain.establishment.Establishment;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,6 +24,7 @@ public class Car {
     private Boolean active;
     private Date entryDate;
     private Date exitDate;
+    private Establishment establishment;
 
     public Car(CarDTO carDTO) {
         this.plate = carDTO.plate();
@@ -69,5 +71,13 @@ public class Car {
 
     public Boolean getActive() {
         return active;
+    }
+
+    public void setEstablishment(Establishment establishment) {
+        this.establishment = establishment;
+    }
+
+    public String getPlate() {
+        return plate;
     }
 }
