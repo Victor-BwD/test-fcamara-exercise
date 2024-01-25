@@ -7,6 +7,7 @@ import com.victorbwd.desafiofcamara.repositories.EstablishmentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EstablishmentService {
@@ -61,5 +62,9 @@ public class EstablishmentService {
     public void delete(String id) {
         Establishment establishment = this.establishmentRepository.findById(id).orElseThrow(EstablishmentNotFoundException::new);
         this.establishmentRepository.delete(establishment);
+    }
+
+    public Optional<Establishment> getById(String id) {
+        return this.establishmentRepository.findById(id);
     }
 }

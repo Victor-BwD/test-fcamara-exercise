@@ -1,10 +1,13 @@
 package com.victorbwd.desafiofcamara.domain.cars;
 
+import com.victorbwd.desafiofcamara.domain.establishment.Establishment;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.Date;
 
 @Document(collection = "cars")
 @Getter
@@ -18,6 +21,10 @@ public class Car {
     private String color;
     private String type;
     private String brand;
+    private Boolean active;
+    private Date entryDate;
+    private Date exitDate;
+    private Establishment establishment;
 
     public Car(CarDTO carDTO) {
         this.plate = carDTO.plate();
@@ -25,6 +32,9 @@ public class Car {
         this.color = carDTO.color();
         this.type = carDTO.type();
         this.brand = carDTO.brand();
+        this.active = carDTO.active();
+        this.entryDate = carDTO.entryDate();
+        this.exitDate = carDTO.exitDate();
     }
 
     public void setPlate(String plate) {
@@ -45,5 +55,29 @@ public class Car {
 
     public void setBrand(String brand) {
         this.brand = brand;
+    }
+
+    public void setEntryDate(Date entryDate) {
+        this.entryDate = entryDate;
+    }
+
+    public void setExitDate(Date exitDate) {
+        this.exitDate = exitDate;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setEstablishment(Establishment establishment) {
+        this.establishment = establishment;
+    }
+
+    public String getPlate() {
+        return plate;
     }
 }
