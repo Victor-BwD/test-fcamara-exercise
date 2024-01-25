@@ -15,7 +15,7 @@ public class ReportService {
         this.carRepository = carRepository;
     }
 
-    public ReportDTO getEntryTotal() {
+    public ReportDTO getTotalEntriesAndExits() {
 
         List<Car> cars = this.carRepository.findAll();
 

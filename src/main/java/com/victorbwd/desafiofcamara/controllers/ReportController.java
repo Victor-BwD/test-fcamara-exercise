@@ -18,8 +18,8 @@ public class ReportController {
     }
 
     @GetMapping
-    public ResponseEntity<ReportDTO> getEntryTotal() {
-        ReportDTO report = this.reportService.getEntryTotal();
+    public ResponseEntity<ReportDTO> getTotalEntriesAndExits() {
+        ReportDTO report = this.reportService.getTotalEntriesAndExits();
         return ResponseEntity.ok().body(report);
     }
 }
