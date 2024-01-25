@@ -80,4 +80,8 @@ public class Car {
     public String getPlate() {
         return plate;
     }
+
+    public Date getExitDate() {
+        return exitDate;
+    }
 }
