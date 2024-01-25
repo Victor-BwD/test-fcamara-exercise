@@ -19,14 +19,17 @@ public class ReportService {
 
         List<Car> cars = this.carRepository.findAll();
 
-        int total = 0;
+        int totalEntries = 0;
+        int totalExits = 0;
 
         for (Car car : cars) {
             if(car.getExitDate() == null) {
-                total++;
+                totalEntries++;
+            }else{
+                totalExits++;
             }
         }
 
-        return new ReportDTO(total);
+        return new ReportDTO(totalEntries, totalExits);
     }
 }

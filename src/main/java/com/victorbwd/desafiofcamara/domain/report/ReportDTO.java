@@ -9,9 +9,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 public class ReportDTO {
     private int totalEntries;
+    private int totalExits;
 
-    public ReportDTO(int totalEntries) {
+    public ReportDTO(int totalEntries, int totalExits) {
         this.totalEntries = totalEntries;
+        this.totalExits = totalExits;
     }
 
     public int getTotalEntries() {
