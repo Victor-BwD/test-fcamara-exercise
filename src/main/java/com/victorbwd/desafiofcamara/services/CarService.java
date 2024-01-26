@@ -56,6 +56,11 @@ public class CarService {
         }
         
         if (carData.plate() != null && !carData.plate().isEmpty()) {
+            PlateValidation plateValidation = new PlateValidation();
+            if(!plateValidation.validateBrazilianPlate(carData.plate())) {
+                throw new IllegalArgumentException("Invalid plate");
+            }
+            
             car.setPlate(carData.plate());
         }
         if (carData.model() != null && !carData.model().isEmpty()) {
