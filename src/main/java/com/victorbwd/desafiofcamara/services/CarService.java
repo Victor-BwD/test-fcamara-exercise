@@ -19,17 +19,18 @@ public class CarService {
 
     private final EstablishmentService establishmentService;
 
-    public CarService(CarRepository carRepository, EstablishmentService establishmentService) {
+    private final PlateValidation plateValidation;
+
+    public CarService(CarRepository carRepository, EstablishmentService establishmentService, PlateValidation plateValidation) {
         this.carRepository = carRepository;
         this.establishmentService = establishmentService;
+        this.plateValidation = plateValidation;
     }
 
     public Car insert(CarDTO carData) {
         Establishment establishment = this.establishmentService.getById(carData.establishmentId()).orElseThrow(EstablishmentNotFoundException::new);
 
         Car newCar = new Car(carData);
-
-        PlateValidation plateValidation = new PlateValidation();
 
         if(!plateValidation.validateBrazilianPlate(newCar.getPlate())) {
             throw new IllegalArgumentException("Invalid plate");
@@ -56,11 +57,11 @@ public class CarService {
         }
         
         if (carData.plate() != null && !carData.plate().isEmpty()) {
-            PlateValidation plateValidation = new PlateValidation();
+
             if(!plateValidation.validateBrazilianPlate(carData.plate())) {
                 throw new IllegalArgumentException("Invalid plate");
             }
-            
+
             car.setPlate(carData.plate());
         }
         if (carData.model() != null && !carData.model().isEmpty()) {
