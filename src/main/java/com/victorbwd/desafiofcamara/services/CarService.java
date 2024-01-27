@@ -5,9 +5,11 @@ import com.victorbwd.desafiofcamara.domain.cars.CarDTO;
 import com.victorbwd.desafiofcamara.domain.cars.exceptions.CarNotFoundException;
 import com.victorbwd.desafiofcamara.domain.establishment.Establishment;
 import com.victorbwd.desafiofcamara.domain.establishment.exceptions.EstablishmentNotFoundException;
+import com.victorbwd.desafiofcamara.helper.CarValidator;
 import com.victorbwd.desafiofcamara.repositories.CarRepository;
 import com.victorbwd.desafiofcamara.helper.PlateValidation;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 
 import java.util.Date;
@@ -27,10 +29,12 @@ public class CarService {
         this.plateValidation = plateValidation;
     }
 
-    public Car insert(CarDTO carData) {
+    public Car insert(@Validated CarDTO carData) {
         Establishment establishment = this.establishmentService.getById(carData.establishmentId()).orElseThrow(EstablishmentNotFoundException::new);
 
         Car newCar = new Car(carData);
+
+        CarValidator.validateNonNullFields(newCar);
 
         if(!plateValidation.validateBrazilianPlate(newCar.getPlate())) {
             throw new IllegalArgumentException("Invalid plate");
@@ -50,7 +54,7 @@ public class CarService {
     }
 
     public Car update(String id, CarDTO carData) {
-        Car car = this.carRepository.findById(id).orElseThrow(CarNotFoundException::new);
+        Car car = this.carRepository.findById(id).orElseThrow(() -> new CarNotFoundException("Car not found with ID: " + id + "."));
 
         if (carData.establishmentId() != null) {
             this.establishmentService.getById(carData.establishmentId()).ifPresent(car::setEstablishment);
@@ -91,8 +95,12 @@ public class CarService {
     }
 
     public void delete(String id) {
-        Car car = this.carRepository.findById(id).orElseThrow(CarNotFoundException::new);
+        Car car = this.carRepository.findById(id).orElseThrow(() -> new CarNotFoundException("Car not found with ID: " + id + "."));
 
         this.carRepository.delete(car);
+    }
+
+    public void findById(String id) {
+        this.carRepository.findById(id).orElseThrow(() -> new CarNotFoundException("Car not found with ID: " + id + "."));
     }
 }

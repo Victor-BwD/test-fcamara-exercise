@@ -5,8 +5,10 @@ import com.victorbwd.desafiofcamara.domain.cars.CarDTO;
 import com.victorbwd.desafiofcamara.services.CarService;
 import jakarta.websocket.server.PathParam;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -19,9 +21,10 @@ public class CarController {
     }
 
     @PostMapping
-    public ResponseEntity<Car> insert(@RequestBody CarDTO carData) {
+    public ResponseEntity<Car> insert(@Validated @RequestBody CarDTO carData) {
         Car newCar = this.carService.insert(carData);
-        return ResponseEntity.ok().body(newCar);
+        URI uri = URI.create("/api/car/" + newCar.getId());
+        return ResponseEntity.created(uri).body(newCar);
     }
 
     @GetMapping
