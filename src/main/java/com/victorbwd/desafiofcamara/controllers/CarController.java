@@ -3,6 +3,7 @@ package com.victorbwd.desafiofcamara.controllers;
 import com.victorbwd.desafiofcamara.domain.cars.Car;
 import com.victorbwd.desafiofcamara.domain.cars.CarDTO;
 import com.victorbwd.desafiofcamara.services.CarService;
+import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -21,7 +22,7 @@ public class CarController {
     }
 
     @PostMapping
-    public ResponseEntity<Car> insert(@Validated @RequestBody CarDTO carData) {
+    public ResponseEntity<Car> insert(@Valid @RequestBody CarDTO carData) {
         Car newCar = this.carService.insert(carData);
         URI uri = URI.create("/api/car/" + newCar.getId());
         return ResponseEntity.created(uri).body(newCar);

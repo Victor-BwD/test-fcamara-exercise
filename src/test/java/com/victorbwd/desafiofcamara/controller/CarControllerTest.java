@@ -6,12 +6,14 @@ import com.victorbwd.desafiofcamara.domain.cars.CarDTO;
 import com.victorbwd.desafiofcamara.domain.cars.exceptions.CarNotFoundException;
 import com.victorbwd.desafiofcamara.repositories.CarRepository;
 import com.victorbwd.desafiofcamara.services.CarService;
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -73,6 +75,13 @@ public class CarControllerTest {
 
         Assertions.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         Assertions.assertEquals(updatedCar, responseEntity.getBody());
+    }
+
+    @Test
+    void testUpdateCarNotFound() {
+        when(carService.update(anyString(), any(CarDTO.class))).thenThrow(CarNotFoundException.class);
+
+        Assertions.assertThrows(CarNotFoundException.class, () -> carController.update("65b2e1f7ebd4408d1159dd", carDTO));
     }
 
     @Test
