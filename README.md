@@ -8,7 +8,7 @@ Nesse projeto temos:
 
 O projeto é feito em java 17 utilizando MongoDB como banco de dados e Spring Boot como framework.
 
-Temos três tipos de rotas: A de veiculos e de estabelecimentos e sumário...
+Temos três tipos de rotas: A de veiculos, de estabelecimentos e sumário...
 
 Veículos:
 - get: localhost:8080/api/car, permite trazer todos os carros cadastrados junto com seus respectivos estalecimentos usados como estacionamentos
