@@ -4,6 +4,7 @@ import com.victorbwd.desafiofcamara.domain.establishment.Establishment;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,10 +17,15 @@ import java.util.Date;
 public class Car {
     @Id
     private String id;
+    @NotNull
     private String plate;
+    @NotNull
     private String model;
+    @NotNull
     private String color;
+    @NotNull
     private String type;
+    @NotNull
     private String brand;
     private Boolean active;
     private Date entryDate;
@@ -83,5 +89,25 @@ public class Car {
 
     public Date getExitDate() {
         return exitDate;
+    }
+
+    public Object getModel() {
+        return model;
+    }
+
+    public Object getColor() {
+        return color;
+    }
+
+    public Object getType() {
+        return type;
+    }
+
+    public Object getBrand() {
+        return brand;
+    }
+
+    public String getId() {
+        return id;
     }
 }
